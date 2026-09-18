@@ -1,0 +1,12 @@
+model_list:
+  - model_name: "kiro/claude-haiku-4-5"
+    litellm_params:
+      model: "openai/claude-haiku-4-5"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+
+general_settings:
+  master_key: "os.environ/LITELLM_MASTER_KEY"
+
+litellm_settings:
+  set_verbose: false

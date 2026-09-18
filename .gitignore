@@ -1,0 +1,10 @@
+.env
+*.secret
+*.token
+.venv/
+__pycache__/
+kiro-gateway/
+kiro-gateway.pid
+logs/
+*.log
+open-webui-data-backup*

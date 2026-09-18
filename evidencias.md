@@ -1,0 +1,106 @@
+# Evidências — Open WebUI + LiteLLM + Kiro Gateway (lab local)
+
+Trilha de evidências por fase. Nenhum segredo registrado neste arquivo.
+Data da execução: 2026-09-18 · macOS 15.7 arm64 · shell /bin/bash
+
+## Fase 1 — Pré-verificação
+
+| Item | Resultado |
+|---|---|
+| Sistema | macOS 15.7 (Build 24G222), arm64, shell /bin/bash, home /Users/jonathasrochadesouza |
+| Docker | 28.4.0, daemon ativo |
+| Docker Compose | v2.39.2-desktop.1 |
+| Git | 2.45.0 |
+| Python 3 | 3.14.0 |
+| curl | 8.7.1 |
+| OpenSSL | 3.6.3 |
+| kiro-cli | 2.21.4 em ~/.local/bin/kiro-cli |
+| kiro-cli auth | `kiro-cli whoami` → sessão ativa (Google) |
+| Portas 3000/4000/8000 | Livres na pré-verificação |
+| uv | 0.11.32 (necessário para o gateway Python) |
+| Pendências | Nenhuma instalação necessária |
+
+## Fase 2 — Preparação do Kiro CLI
+
+| Teste | Comando | Resultado |
+|---|---|---|
+| Sintaxe real | `kiro-cli chat --help` | `--no-interactive`, `--list-models`, `--model` confirmados |
+| Modelos locais | `kiro-cli chat --list-models` | 9 modelos (auto\*, claude-sonnet-4.5, claude-sonnet-4, claude-haiku-4.5, deepseek-3.2, minimax-m2.5, minimax-m2.1, glm-5, qwen3-coder-next) |
+| Chat validado | `kiro-cli chat --no-interactive --model claude-haiku-4.5 --trust-tools= "Responda somente: Kiro CLI pronto."` | resposta: "Kiro CLI pronto." · 0,02 créditos · 1s |
+
+## Fase 3 — Seleção e instalação do Kiro Gateway
+
+Comparação: 1) ankitcharolia/kiro-gateway (AGPL-3.0, Python/uv, ACP, auth Bearer, 75★) — **escolhido**;
+2) szympajka/kiro-bridge (MIT, Go, ACP, sem auth) — alternativa;
+3) githendrik/kiro-proxy-go — **rejeitado** (lê refresh token do cache, viola a regra "apenas binário oficial").
+
+| Item | Resultado |
+|---|---|
+| Clone | ~/ai-lab/openwebui-kiro/kiro-gateway |
+| Versão | tag v2.4.1 (commit 94f75c1, 2026-08-25) |
+| Dependências | `uv sync` — venv isolado (nenhum pacote global) |
+| .env | criado a partir de .env.example; KIRO_GATEWAY_API_KEY gerada com `openssl rand -hex 32`; chmod 600 |
+| Bind | SERVER_HOST=127.0.0.1, SERVER_PORT=8000 (default 0.0.0.0 ajustado) |
+| Início | `uv run main.py` em background; log em logs/kiro-gateway.log |
+| Log de startup | "Starting Kiro Gateway v2.4.1 (ACP mode)" · ACP initialized: agent=Kiro CLI Agent v2.21.4 · catálogo populado com 9 modelos · "Uvicorn running on http://127.0.0.1:8000" |
+
+## Fase 4 — Testes do Kiro Gateway
+
+| Teste | Resultado |
+|---|---|
+| GET /health | HTTP 200 · {"status":"ok","mode":"acp-cli-bridge","version":"2.4.1"} |
+| GET /v1/models (Bearer) | HTTP 200 · 10 ids: auto, claude-sonnet-4-5, claude-sonnet-4, claude-haiku-4-5, deepseek-3-2, minimax-m2-5, minimax-m2-1, glm-5, qwen3-coder-next, claude-auto |
+| POST /v1/chat/completions (stream:false, claude-haiku-4-5) | HTTP 200 · content: "Kiro Gateway integrado com sucesso." · ~30,3s |
+| POST /v1/chat/completions (stream:true) | 5 chunks SSE + [DONE] recebidos · frase correta nos deltas |
+| Chave usada via variável de ambiente | nenhum segredo em histórico/log |
+
+## Fase 5 — Open WebUI em Docker
+
+| Teste | Resultado |
+|---|---|
+| `docker compose config` | válido |
+| Bloqueio de espaço | pull falhou (no space left) — liberados 21,2 GB build cache + 1,4 GB imagens não usadas, com aprovação do usuário |
+| `docker compose up -d` | open-webui + litellm iniciados |
+| `docker compose ps` | open-webui Up (healthy) · litellm Up |
+| curl -I http://127.0.0.1:3000 | HTTP 200 |
+| Bind 3000 | 127.0.0.1:3000 (confirmado via lsof) |
+| Volume | open-webui-data persistido em /app/backend/data |
+| WEBUI_SECRET_KEY | definida via .env; WEBUI_AUTH não desativado |
+
+## Fase 6 — LiteLLM Proxy
+
+| Teste | Resultado |
+|---|---|
+| Config | litellm_config.yaml com model_list kiro/claude-haiku-4-5 → openai/claude-haiku-4-5 via api_base host.docker.internal:8000/v1, api_key os.environ/KIRO_GATEWAY_API_KEY; master_key os.environ/LITELLM_MASTER_KEY; set_verbose false |
+| GET /v1/models (master key) | HTTP 200 · ids: kiro/claude-haiku-4-5 |
+| Chat sem stream | HTTP 200 · content: "LiteLLM integrado com sucesso." · ~8,3s |
+| Chat com stream | 6 chunks SSE + [DONE] · conteúdo concatenado confirmado |
+| open-webui → http://litellm:4000/v1/models (Docker interno) | HTTP 200 |
+| Bind 4000 | 127.0.0.1:4000 (confirmado via lsof) |
+| Sem logs de conteúdo | set_verbose: false; sem callbacks/telemetria |
+
+## Fase 7 — Configuração no Open WebUI (manual, via UI)
+
+| Item | Status |
+|---|---|
+| Criação do 1º admin | concluída pelo usuário em http://localhost:3000 |
+| Cadastro da conexão | concluído: Settings → Admin Settings → Connections → OpenAI API → Add Connection (valores no README) |
+| Teste final na UI | **CONFIRMADO PELO USUÁRIO** — resposta via kiro/claude-haiku-4-5: "Open WebUI conectado ao Kiro CLI." (cadeia completa Open WebUI → LiteLLM → Kiro Gateway → kiro-cli validada de ponta a ponta) |
+
+## Fase 8 — Artefatos
+
+| Item | Status |
+|---|---|
+| scripts/ start, stop, status, test-gateway, test-litellm (.sh, executáveis) | criados; sem segredos; leem .env |
+| README.md | criado (arquitetura, operação, segurança, backup, remoção) |
+| .env.example | placeholders fictícios apenas (chmod 600 por precaução local) |
+| .gitignore | .env, *.secret, *.token, .venv/, __pycache__/ (Git não inicializado por padrão) |
+| evidencias.md | este arquivo |
+
+## Relatório final (estado em 2026-09-18)
+
+- Arquitetura ativa: Browser → Open WebUI (127.0.0.1:3000) → LiteLLM (127.0.0.1:4000, interno http://litellm:4000) → Kiro Gateway (127.0.0.1:8000) → kiro-cli 2.21.4 (ACP v2) → modelos da conta Kiro.
+- Testes executados: todos da Fase 4 e Fase 6 aprovados; conectividade container↔container aprovada.
+- Modelos expostos pelo LiteLLM: kiro/claude-haiku-4-5 (única rota configurada).
+- Ações manuais pendentes: criar admin e cadastrar conexão no Open WebUI (Fase 7) + teste final na UI.
+- Limitações conhecidas: temperatura/top_p inertes (ACP não aplica sampling); client-side function calling não suportado pelo kiro-cli via ACP; catálogo de modelos do Kiro rotaciona; assinatura Kiro tem créditos limitados; LiteLLM usa tag main-latest (flutuante).
