@@ -16,9 +16,15 @@ Browser → Open WebUI :3000 → LiteLLM :4000 → Kiro Gateway :8000 → kiro-c
 
 ## Início rápido
 
+Fluxo do novo usuário:
+
 ```bash
-./scripts/setup.sh    # gera .env, clona o gateway (v2.4.1), instala dependências
-./scripts/start.sh    # sobe Kiro Gateway + Open WebUI + LiteLLM
+git clone https://github.com/jonathasrochadesouza/openwebui-gateway-providers.git
+cd openwebui-gateway-providers
+kiro-cli login            # se ainda não autenticou
+./scripts/setup.sh        # gera .env, clona o gateway (v2.4.1), instala dependências
+./scripts/start.sh        # sobe Kiro Gateway + Open WebUI + LiteLLM
+# abra http://localhost:3000
 ```
 
 Abra **http://localhost:3000** e crie o primeiro usuário administrador.
