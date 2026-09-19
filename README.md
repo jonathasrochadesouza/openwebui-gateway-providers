@@ -21,15 +21,21 @@ Os modelos aparecem com prefixo do provedor: `kiro/…`, `kilo/…`, `claude/…
 
 ## Início rápido
 
-Fluxo do novo usuário:
+Fluxo do novo usuário (tudo de uma vez):
 
 ```bash
 git clone https://github.com/jonathasrochadesouza/openwebui-gateway-providers.git
 cd openwebui-gateway-providers
-kiro-cli login            # se ainda não autenticou
-./scripts/setup.sh        # gera .env, clona o gateway (v2.4.1), instala dependências
-./scripts/start.sh        # sobe Kiro Gateway + Open WebUI + LiteLLM
+kiro-cli login            # se ainda não autenticou (kilo auth / claude /login também valem)
+./scripts/up.sh           # SOBE TUDO: setup + gateways + sync de modelos + Compose
 # abra http://localhost:3000
+```
+
+Ou passo a passo:
+
+```bash
+./scripts/setup.sh        # gera .env, clona o gateway (v2.4.1), prepara adaptadores
+./scripts/start.sh        # detecta provedores, sobe 1 gateway por CLI + Compose
 ```
 
 Abra **http://localhost:3000** e crie o primeiro usuário administrador.
