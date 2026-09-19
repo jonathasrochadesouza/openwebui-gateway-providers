@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
-# Para LiteLLM/Open WebUI (Docker) e o Kiro Gateway deste projeto.
+# Para o Compose e todas as instâncias de gateway deste projeto.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+source scripts/providers.sh
 
 docker compose stop
 
-if [ -f kiro-gateway.pid ]; then
-  PID=$(cat kiro-gateway.pid)
+stopped=""
+for f in kiro-gateway-*.pid; do
+  [ -f "$f" ] || continue
+  PID=$(cat "$f")
   if kill -0 "$PID" 2>/dev/null; then
-    kill "$PID" && echo "Kiro Gateway (pid $PID) encerrado."
-  else
-    echo "pidfile obsoleto; removido."
+    kill "$PID" && stopped="$stopped $f (pid $PID)"
   fi
+  rm -f "$f"
+done
+# Compat: pidfile antigo
+if [ -f kiro-gateway.pid ]; then
+  PID=$(cat kiro-gateway.pid); kill -0 "$PID" 2>/dev/null && kill "$PID" && stopped="$stopped kiro-gateway.pid (pid $PID)"
   rm -f kiro-gateway.pid
-else
-  echo "Sem pidfile do Kiro Gateway. (Se estiver em outro terminal, encerre manualmente.)"
 fi
+[ -n "$stopped" ] && echo "Gateways encerrados:$stopped" || echo "Nenhuma instância de gateway em execução."

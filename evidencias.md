@@ -104,3 +104,14 @@ Comparação: 1) ankitcharolia/kiro-gateway (AGPL-3.0, Python/uv, ACP, auth Bear
 - Modelos expostos pelo LiteLLM: kiro/claude-haiku-4-5 (única rota configurada).
 - Ações manuais pendentes: criar admin e cadastrar conexão no Open WebUI (Fase 7) + teste final na UI.
 - Limitações conhecidas: temperatura/top_p inertes (ACP não aplica sampling); client-side function calling não suportado pelo kiro-cli via ACP; catálogo de modelos do Kiro rotaciona; assinatura Kiro tem créditos limitados; LiteLLM usa tag main-latest (flutuante).
+
+## Implementação das issues #1–#4 (2026-09-18)
+
+| Issue | Implementação | Validação |
+|---|---|---|
+| #1 Auto-config Open WebUI | env no container: OPENAI_API_BASE_URL=http://litellm:4000/v1, OPENAI_API_KEY=${LITELLM_MASTER_KEY}, ENABLE_PERSISTENT_CONFIG=False; modelos sincronizados via scripts/sync-providers.sh (catálogo ao vivo dos gateways; fallback catálogo completo — plano free/PRO não detectável para login Google/IdP: kiro-cli profile disponível só para IAM IdC) | container com env correta; 18 modelos expostos; chat end-to-end OK |
+| #2 Kilo Code | 2ª instância gateway :8001, wrapper scripts/adapters/kilo-acp.sh (npx @kilocode/cli@7.7.5 — versão instalada 0.6.0 local não tem 'kilo acp'; CLI 1.0 tem) | :8001 healthy; 4 modelos (auto, claude-opus-4-8, claude-sonnet-4-6, claude-auto); chat+stream OK via gateway e LiteLLM |
+| #3 Claude Code | 3ª instância :8002, wrapper scripts/adapters/claude-acp.sh (npx @agentclientprotocol/claude-agent-acp@0.31.4, Apache-2.0) | :8002 healthy; /v1/models com claude/default, sonnet[1m], opus[1m], haiku; **chat pendente de login do usuário no claude CLI ("Authentication required")** |
+| #4 Detecção/seleção | scripts/providers.sh (bash 3.2 portável), PROVIDERS no .env (vazio=auto), pidfiles por provedor, start/stop/status/test parametrizados, litellm_config.yaml gerado dinamicamente | 3 gateways no ar via PROVIDERS vazio; status.sh por provedor; retrocompat preservada |
+
+Cenários de teste por issue: docs/issues/issue-{1..4}-teste.md

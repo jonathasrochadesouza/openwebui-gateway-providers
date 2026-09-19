@@ -1,18 +1,23 @@
-# Open WebUI + Kiro (lab local)
+# Open WebUI + Kiro/Kilo/Claude (lab local)
 
-Chat local (http://localhost:3000) usando os modelos da sua conta Kiro,
-intermediados por LiteLLM e um gateway comunitário que opera **somente pelo
-binário oficial `kiro-cli`** (via ACP) — sem leitura de credenciais.
+Chat local (http://localhost:3000) usando a assinatura das suas ferramentas de IA
+via CLIs oficiais (`kiro-cli`, `kilo`, `claude`), cada uma atrás de um gateway
+comunitário ACP, unificadas pelo LiteLLM — sem leitura de credenciais.
 
 ```
-Browser → Open WebUI :3000 → LiteLLM :4000 → Kiro Gateway :8000 → kiro-cli → modelos Kiro
+Browser → Open WebUI :3000 → LiteLLM :4000 ─┬→ gateway :8000 → kiro-cli acp
+                                            ├→ gateway :8001 → kilo acp
+                                            └→ gateway :8002 → claude-agent-acp → Claude
 ```
+
+Os modelos aparecem com prefixo do provedor: `kiro/…`, `kilo/…`, `claude/…`.
 
 ## Pré-requisitos
 
 - Docker Desktop **em execução** (28+)
-- Python 3.14+, `uv`, `git`, `curl`, `openssl`
-- `kiro-cli` instalado e **autenticado** (`kiro-cli login` se necessário)
+- Python 3.14+, `uv`, `git`, `curl`, `openssl`, Node 20+ (para adaptadores via npx)
+- Pelo menos um CLI, autenticado: `kiro-cli login`, `kilo auth` e/ou `claude` (`/login`)
+- Opcional: `PROVIDERS=kiro,kilo,claude` no `.env` (vazio = auto-detecta os instalados)
 
 ## Início rápido
 
@@ -29,35 +34,32 @@ kiro-cli login            # se ainda não autenticou
 
 Abra **http://localhost:3000** e crie o primeiro usuário administrador.
 
-### Conectar ao LiteLLM (uma vez)
+### Conexão com o LiteLLM
 
-Settings → Admin Settings → Connections → OpenAI API Connections → Add Connection:
+**Automática** — o container Open WebUI já sobe com `OPENAI_API_BASE_URL=http://litellm:4000/v1`
+e `ENABLE_PERSISTENT_CONFIG=False`: ao criar o admin, os modelos `kiro/*`, `kilo/*`, `claude/*`
+já aparecem no seletor. Para re-sincronizar modelos após mudanças: `./scripts/sync-providers.sh`.
 
-| Campo | Valor |
-|---|---|
-| Nome | LiteLLM Local |
-| Base URL | `http://litellm:4000/v1` |
-| API Key | valor de `LITELLM_MASTER_KEY` em `.env` |
-| Prefix ID | `lab` |
-| Model IDs | `kiro/claude-haiku-4-5` |
-
-Depois selecione o modelo `kiro/claude-haiku-4-5` no chat e envie uma mensagem.
+Cadastro manual (alternativo): Settings → Admin Settings → Connections → OpenAI API → Add Connection
+com Base URL `http://litellm:4000/v1`, API Key = `LITELLM_MASTER_KEY` do `.env`, Prefix ID `lab`.
 
 ## Operação
 
 ```bash
-./scripts/start.sh         # sobe tudo
-./scripts/status.sh        # status + conferência de binds
-./scripts/stop.sh          # para tudo
-./scripts/test-gateway.sh  # valida Kiro Gateway
-./scripts/test-litellm.sh  # valida LiteLLM (e lista modelos expostos)
+./scripts/start.sh                        # detecta provedores, sobe 1 gateway por CLI + Compose
+./scripts/sync-providers.sh               # regenera litellm_config.yaml com os modelos ao vivo
+./scripts/status.sh                       # status de tudo + conferência de binds
+./scripts/stop.sh                         # para tudo
+./scripts/test-gateway.sh [provedor...]   # valida gateways (default: todos habilitados)
+./scripts/test-litellm.sh                 # valida LiteLLM (e lista modelos expostos)
 ```
 
 ## Notas
 
 - Os ids de modelos do Kiro mudam com o tempo — consulte `./scripts/test-litellm.sh`
   para ver a lista atual e ajuste `litellm_config.yaml` se necessário.
-- Se o login do kiro-cli expirar: `kiro-cli login`, depois `./scripts/stop.sh && ./scripts/start.sh`.
+- Se um login expirar (`kiro-cli login`, `kilo auth`, `claude` `/login`), depois
+  `./scripts/stop.sh && ./scripts/start.sh`.
 - Todos os serviços escutam **somente em 127.0.0.1**. Segredos ficam só no `.env`
   (gerado com permissão 600 e ignorado pelo Git).
 - ACP_TRUST_TOOLS=true no `.env` do gateway permite que o kiro-cli execute suas

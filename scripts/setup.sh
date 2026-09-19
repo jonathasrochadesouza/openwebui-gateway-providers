@@ -19,13 +19,16 @@ docker info >/dev/null 2>&1 || { echo "ERRO: Docker não está em execução."; 
 # 1. Segredos locais (.env nunca versionado)
 if [ ! -f .env ]; then
   umask 177
-  printf 'WEBUI_SECRET_KEY=%s\nLITELLM_MASTER_KEY=%s\nKIRO_GATEWAY_API_KEY=%s\n' \
+  printf 'PROVIDERS=\nWEBUI_SECRET_KEY=%s\nLITELLM_MASTER_KEY=%s\nKIRO_GATEWAY_API_KEY=%s\n' \
     "$(openssl rand -hex 32)" "$(openssl rand -hex 32)" "$(openssl rand -hex 32)" > .env
   chmod 600 .env
-  echo ".env criado com segredos fortes (permissão 600)."
+  echo ".env criado com segredos fortes (permissão 600). PROVIDERS vazio = auto-detectar."
 else
   echo ".env já existe — segredos preservados."
 fi
+
+# 1b. Adaptadores ACP (executáveis) para provedores além do Kiro
+chmod +x scripts/adapters/*.sh 2>/dev/null || true
 
 # 2. Kiro Gateway comunitário (tag fixada, funciona via binário oficial kiro-cli)
 if [ ! -d kiro-gateway ]; then

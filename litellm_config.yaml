@@ -1,10 +1,95 @@
+# Gerado por scripts/sync-providers.sh — não versionar segredos.
 model_list:
+  - model_name: "kiro/auto"
+    litellm_params:
+      model: "openai/auto"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kiro/claude-sonnet-4-5"
+    litellm_params:
+      model: "openai/claude-sonnet-4-5"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kiro/claude-sonnet-4"
+    litellm_params:
+      model: "openai/claude-sonnet-4"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
   - model_name: "kiro/claude-haiku-4-5"
     litellm_params:
       model: "openai/claude-haiku-4-5"
       api_base: "http://host.docker.internal:8000/v1"
       api_key: "os.environ/KIRO_GATEWAY_API_KEY"
-
+  - model_name: "kiro/deepseek-3-2"
+    litellm_params:
+      model: "openai/deepseek-3-2"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kiro/minimax-m2-5"
+    litellm_params:
+      model: "openai/minimax-m2-5"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kiro/minimax-m2-1"
+    litellm_params:
+      model: "openai/minimax-m2-1"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kiro/glm-5"
+    litellm_params:
+      model: "openai/glm-5"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kiro/qwen3-coder-next"
+    litellm_params:
+      model: "openai/qwen3-coder-next"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kiro/claude-auto"
+    litellm_params:
+      model: "openai/claude-auto"
+      api_base: "http://host.docker.internal:8000/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kilo/auto"
+    litellm_params:
+      model: "openai/auto"
+      api_base: "http://host.docker.internal:8001/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kilo/claude-opus-4-8"
+    litellm_params:
+      model: "openai/claude-opus-4-8"
+      api_base: "http://host.docker.internal:8001/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kilo/claude-sonnet-4-6"
+    litellm_params:
+      model: "openai/claude-sonnet-4-6"
+      api_base: "http://host.docker.internal:8001/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "kilo/claude-auto"
+    litellm_params:
+      model: "openai/claude-auto"
+      api_base: "http://host.docker.internal:8001/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "claude/default"
+    litellm_params:
+      model: "openai/default"
+      api_base: "http://host.docker.internal:8002/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "claude/sonnet[1m]"
+    litellm_params:
+      model: "openai/sonnet[1m]"
+      api_base: "http://host.docker.internal:8002/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "claude/opus[1m]"
+    litellm_params:
+      model: "openai/opus[1m]"
+      api_base: "http://host.docker.internal:8002/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "claude/haiku"
+    litellm_params:
+      model: "openai/haiku"
+      api_base: "http://host.docker.internal:8002/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
 general_settings:
   master_key: "os.environ/LITELLM_MASTER_KEY"
 
