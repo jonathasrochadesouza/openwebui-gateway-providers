@@ -8,3 +8,4 @@ kiro-gateway.pid
 logs/
 *.log
 open-webui-data-backup*
+kiro-gateway-*.pid
