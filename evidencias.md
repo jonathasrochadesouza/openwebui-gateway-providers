@@ -139,3 +139,10 @@ Cenários de teste por issue: docs/issues/issue-{1..4}-teste.md
 - #8 Gemini: 5ª instância gateway :8004 no ar, porém upstream rejeita: "This client is no longer supported for Gemini Code Assist for individuals — migrate to Antigravity". Nenhuma rota gemini exposta até o usuário reautenticar o CLI com login suportado. Estrutura pronta (wrapper, providers.sh, sync com IDS vazio).
 - Robustez start.sh: checagem de instância em execução agora exige /health (evita órfão de uv).
 - Total exposto: 53 modelos (kiro 10, kilo/free 1, claude 4, opencode 37, codex/auto 1).
+
+## Issues #8/#9 — Antigravity (2026-09-19)
+
+- #8: pivô de Gemini CLI → Antigravity CLI (Google descontinuou "Code Assist individuals" no gemini CLI; usuário aprovou usar agy). Gateway :8004 via scripts/adapters/antigravity-acp.sh (npx agy-acp@0.5.2, Apache-2.0, envolve o binário oficial agy 1.2.7 e herda seu login). `agy` não tem modo ACP nativo (apenas stream-json print) — por isso o adaptador.
+- Validação: `agy models` 14/14 ids com chat real OK (gemini-3.8/3.7/3.6-flash h/m/l, gemini-3.1-pro h/l, claude-sonnet-4-6, claude-opus-4-6-thinking, gpt-oss-120b-medium). Alias antigravity/free → gemini-3.8-flash-low. set_model funciona via config options do adaptador.
+- LiteLLM: antigravity/free ✓, antigravity/gemini-3.1-pro-high ✓, antigravity/claude-opus-4-6-thinking ✓. Total exposto: 68 modelos.
+- Validador permanente: scripts/validate-antigravity.sh (cache logs/antigravity-validated.txt, REVALIDATE=1).

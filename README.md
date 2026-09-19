@@ -1,17 +1,21 @@
-# Open WebUI + Kiro/Kilo/Claude/OpenCode (lab local)
+# Open WebUI + Kiro/Kilo/Claude/OpenCode/Antigravity/Codex (lab local)
 
 Chat local (http://localhost:3000) usando a assinatura das suas ferramentas de IA
-via CLIs oficiais (`kiro-cli`, `kilo`, `claude`, `opencode`), cada uma atrás de um
-gateway comunitário ACP, unificadas pelo LiteLLM — sem leitura de credenciais.
+via CLIs oficiais (`kiro-cli`, `kilo`, `claude`, `opencode`, `agy`, `codex`), cada
+uma atrás de um gateway comunitário ACP, unificadas pelo LiteLLM — sem leitura de
+credenciais.
 
 ```
 Browser → Open WebUI :3000 → LiteLLM :4000 ─┬→ gateway :8000 → kiro-cli acp
                                             ├→ gateway :8001 → kilo acp
                                             ├→ gateway :8002 → claude-agent-acp → Claude
-                                            └→ gateway :8003 → opencode acp
+                                            ├→ gateway :8003 → opencode acp
+                                            ├→ gateway :8004 → antigravity (agy, via agy-acp)
+                                            └→ gateway :8005 → codex-acp (gpt-5.5)
 ```
 
-Os modelos aparecem com prefixo do provedor: `kiro/…`, `kilo/…`, `claude/…`, `opencode/…`.
+Os modelos aparecem com prefixo do provedor: `kiro/…`, `kilo/…`, `claude/…`, `opencode/…`,
+`antigravity/…`, `codex/…`.
 Para o OpenCode, o catálogo completo dos providers autenticados do usuário (`opencode models`,
 ex.: `opencode-go/…`, `…-free`) é validado com 1 chat real por id (`scripts/validate-opencode.sh`,
 cache em `logs/opencode-validated.txt`; revalidar: `REVALIDATE=1 ./scripts/validate-opencode.sh`)
@@ -22,9 +26,10 @@ pontos no nome exibido (ex.: `opencode/opencode-go.glm-5.3-flash`).
 
 - Docker Desktop **em execução** (28+)
 - Python 3.14+, `uv`, `git`, `curl`, `openssl`, Node 20+ (para adaptadores via npx)
-- Pelo menos um CLI, autenticado: `kiro-cli login`, `kilo auth`, `claude` (`/login`)
-  e/ou `opencode auth`
-- Opcional: `PROVIDERS=kiro,kilo,claude,opencode` no `.env` (vazio = auto-detecta os instalados)
+- Pelo menos um CLI, autenticado: `kiro-cli login`, `kilo auth`, `claude` (`/login`),
+  `agy` (Antigravity) e/ou `codex` (login ChatGPT)
+- Opcional: `PROVIDERS=kiro,kilo,claude,opencode,antigravity,codex` no `.env`
+  (vazio = auto-detecta os instalados)
 
 ## Início rápido
 

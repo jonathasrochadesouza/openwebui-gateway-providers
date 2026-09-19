@@ -32,7 +32,15 @@ for p in $(enabled_providers); do
 
   # Gemini (#8): exposto apenas quando o upstream responder (login do usuário
   # atualmente rejeitado pelo Google — 'Gemini Code Assist individuals' descontinuado).
-  [ "$p" = "gemini" ] && IDS=""
+  # Antigravity (#8): catálogo `agy models` filtrado pelo cache de validação
+  # (só ids com chat real OK) + alias 'free'.
+  if [ "$p" = "antigravity" ]; then
+    bash scripts/validate-antigravity.sh >&2 || true
+    [ -s logs/antigravity-validated.txt ] || { echo "AVISO: antigravity sem ids validados"; continue; }
+    IDS=$(echo "$IDS $(agy models 2>/dev/null | awk '{print $1}')" | tr ' ' '\n' | sort -u \
+          | while read -r id; do grep -qx "$id" logs/antigravity-validated.txt && echo "$id"; done || true)
+    IDS="$IDS free"
+  fi
 
   # OpenCode (#7): catálogo completo do CLI + ACP, filtrado pelo cache de validação
   # (só ids que responderam 1 chat real) + alias 'free'.

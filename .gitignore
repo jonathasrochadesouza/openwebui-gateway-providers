@@ -10,3 +10,4 @@ logs/
 open-webui-data-backup*
 kiro-gateway-*.pid
 logs/opencode-validated.txt
+logs/antigravity-validated.txt
