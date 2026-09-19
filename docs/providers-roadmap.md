@@ -14,16 +14,16 @@ exposta só depois de **1 chat real validado por id** (regra das issues #5/#7).
 
 | Provedor | ACP | Porta | Autenticação | Por quê |
 |---|---|---|---|---|
-| **Gemini CLI** | ✅ nativo oficial (`gemini --acp`, google-gemini/gemini-cli) | 8004 | conta Google (free tier generoso) | Melhor custo/benefício: ACP nativo + free tier ampla. Issue **#8** |
-| **Codex CLI** (OpenAI) | via adaptador `@zed-industries/codex-acp` | 8005 | assinatura ChatGPT (Plus/Pro) | Acesso a GPT-5.x por assinatura que você já pode ter; adaptador canônico mantido pela Zed |
-| **Copilot CLI** (GitHub) | oficial (`copilot --acp`) | 8006 | assinatura GitHub Copilot | Muito comum em empresas; integração oficial ACP, sem API key |
+| **Antigravity CLI** (Google) | via adaptador `agy-acp` (Apache-2.0; `agy` interativo não tem ACP) | 8004 | conta Google (`agy` login, keyring) | **Concluída (#8)**: 14/14 modelos validados (Gemini 3.x, Claude, GPT-OSS); substitui o Gemini CLI, descontinuado pelo Google |
+| **Codex CLI** (OpenAI) | via adaptador `@zed-industries/codex-acp@0.16.0` | 8005 | assinatura ChatGPT | **Concluída (#9)**: `codex/auto` (gpt-5.5 via override; gpt-5.6-sol não é suportado p/ contas ChatGPT) |
+| **Copilot CLI** (GitHub) | oficial (`copilot --acp`) | 8006 | assinatura GitHub Copilot | Pendente — issue **#10** |
 
 ## Tier 2 — interessantes (quando houver uso real)
 
 | Provedor | ACP | Porta sugerida | Autenticação | Observações |
 |---|---|---|---|---|
 | **Cursor CLI** | oficial (`agent acp`, docs cursor.com) | 8007 | conta Cursor | ACP nativo; bom para quem já usa Cursor |
-| **Qwen Code** | ACP (ecosistema) | 8008 | OAuth Qwen (free tier) | Free tier real; ecê systema chinês |
+| **Qwen Code** | ACP (ecosistema) | 8008 | OAuth Qwen (free tier) | Pendente — issue **#11**; free tier real |
 | **Kimi CLI** (Moonshot) | via adapters (acpx/zed) | 8009 | conta Moonshot | Modelos k2 forte em código |
 | **Droid** (Factory) | via adapters | 8009 | conta Factory | Popular em automação |
 | **OpenClaw** | via adapters | 8010 | própria | Multi-provider |
