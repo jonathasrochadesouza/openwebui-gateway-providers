@@ -22,10 +22,15 @@ for p in $PROV; do
     echo "AVISO: provedor '$p' habilitado mas $(provider_missing_error "$p") Pulando."
     continue
   fi
-  if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+  if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null \
+     && curl -sf -m 3 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1; then
     echo "$p: gateway já em execução (pid $(cat "$PIDFILE"), porta $PORT)."
     continue
   fi
+  # Processo órfão (uv vivo sem servidor na porta) ou pidfile obsoleto -> limpa antes de subir.
+  [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null && kill "$(cat "$PIDFILE")" 2>/dev/null || true
+  lsof -ti :$PORT 2>/dev/null | xargs kill 2>/dev/null || true
+  sleep 2
 
   # Env de processo tem precedência sobre o .env do gateway (load_dotenv não sobrescreve).
   EXTRA_ENV="SERVER_PORT=$PORT KIRO_CLI_PATH=$CLI KIRO_ACP_ENGINE="

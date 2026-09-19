@@ -260,6 +260,11 @@ model_list:
       model: "openai/free"
       api_base: "http://host.docker.internal:8003/v1"
       api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "codex/auto"
+    litellm_params:
+      model: "openai/auto"
+      api_base: "http://host.docker.internal:8005/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
 general_settings:
   master_key: "os.environ/LITELLM_MASTER_KEY"
 

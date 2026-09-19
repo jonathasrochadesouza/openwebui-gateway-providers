@@ -3,7 +3,7 @@
 # Portável para bash 3.2 (macOS). Fonte única de verdade p/ setup/start/stop/status/test/sync.
 
 PROVIDERS_ENV_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.env"
-PROVIDERS_KNOWN="kiro kilo claude opencode"
+PROVIDERS_KNOWN="kiro kilo claude opencode gemini codex"
 
 provider_root() { cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd; }
 
@@ -13,6 +13,8 @@ provider_port() {
     kilo) echo 8001 ;;
     claude) echo 8002 ;;
     opencode) echo 8003 ;;
+    gemini) echo 8004 ;;
+    codex) echo 8005 ;;
   esac
 }
 
@@ -22,6 +24,8 @@ provider_bin() {
     kilo) echo kilo ;;
     claude) echo claude ;;
     opencode) echo opencode ;;
+    gemini) echo gemini ;;
+    codex) echo codex ;;
   esac
 }
 
@@ -54,6 +58,8 @@ provider_cli_path() {
     kilo) echo "$root/scripts/adapters/kilo-acp.sh" ;;
     claude) echo "$root/scripts/adapters/claude-acp.sh" ;;
     opencode) echo "$root/scripts/adapters/opencode-acp.sh" ;;
+    gemini) echo "$root/scripts/adapters/gemini-acp.sh" ;;
+    codex) echo "$root/scripts/adapters/codex-acp.sh" ;;
   esac
 }
 
@@ -64,5 +70,7 @@ provider_missing_error() {
     kilo) echo "kilo não encontrado — instale (kilo.ai) e autentique com 'kilo auth'." ;;
     claude) echo "claude (Claude Code) não encontrado — instale e autentique com 'claude'." ;;
     opencode) echo "opencode não encontrado — instale (npm i -g opencode-ai) e configure com 'opencode auth'." ;;
+    gemini) echo "gemini não encontrado — instale (npm i -g @google/gemini-cli) e autentique com 'gemini'." ;;
+    codex) echo "codex não encontrado — instale (npm i -g @openai/codex) e autentique com 'codex'." ;;
   esac
 }

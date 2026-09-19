@@ -26,6 +26,14 @@ for p in $(enabled_providers); do
   # alias MODEL_ALIASES na instância kilo) até o mapeamento definitivo (issue #5).
   [ "$p" = "kilo" ] && IDS="free"
 
+  # Codex (#9): o adaptador Zed não implementa session/set_model — todas as chamadas
+  # usam o modelo default do wrapper (gpt-5.5, validado). Expor apenas 'auto'.
+  [ "$p" = "codex" ] && IDS="auto"
+
+  # Gemini (#8): exposto apenas quando o upstream responder (login do usuário
+  # atualmente rejeitado pelo Google — 'Gemini Code Assist individuals' descontinuado).
+  [ "$p" = "gemini" ] && IDS=""
+
   # OpenCode (#7): catálogo completo do CLI + ACP, filtrado pelo cache de validação
   # (só ids que responderam 1 chat real) + alias 'free'.
   if [ "$p" = "opencode" ]; then

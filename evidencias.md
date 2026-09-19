@@ -132,3 +132,10 @@ Cenários de teste por issue: docs/issues/issue-{1..4}-teste.md
 - Validação de chat real por id (scripts/validate-opencode.sh, cache logs/opencode-validated.txt): 32/34 CLI OK (muse-spark-1.2/1.3-contributor vazios → excluídos), ACP 4/4 OK → 36 rotas + opencode/free (alias nemotron-3-ultra-free).
 - Normalização LiteLLM: model_name com barras internas viram pontos (ex.: opencode/opencode-go.glm-5.3-flash); id real preservado no backend.
 - Total exposto: 52 modelos (kiro 10, kilo/free 1, claude 4, opencode 37). Validação via LiteLLM: opencode/free ✓, opencode/opencode-go.glm-5.3-flash ✓, opencode/auto ✓.
+
+## Issues #8 e #9 implementadas (2026-09-19)
+
+- #9 Codex: 6ª instância gateway :8005, wrapper scripts/adapters/codex-acp.sh (npx @zed-industries/codex-acp@0.16.0 com override -c 'model="gpt-5.5"'). Causa-raiz inicial: config local do codex usa gpt-5.6-sol, não suportado p/ contas ChatGPT (testado: gpt-5.1/5.6/5.2-codex/5-codex/o3/codex-mini → 400; gpt-5.5 OK). O adaptador Zed não implementa session/set_model (fallback default). Validação: chat "Codex integrado com sucesso." no gateway e via LiteLLM ✓; stream 6 chunks ✓. Rota exposta: codex/auto (única, regra #5).
+- #8 Gemini: 5ª instância gateway :8004 no ar, porém upstream rejeita: "This client is no longer supported for Gemini Code Assist for individuals — migrate to Antigravity". Nenhuma rota gemini exposta até o usuário reautenticar o CLI com login suportado. Estrutura pronta (wrapper, providers.sh, sync com IDS vazio).
+- Robustez start.sh: checagem de instância em execução agora exige /health (evita órfão de uv).
+- Total exposto: 53 modelos (kiro 10, kilo/free 1, claude 4, opencode 37, codex/auto 1).
