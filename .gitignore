@@ -9,3 +9,4 @@ logs/
 *.log
 open-webui-data-backup*
 kiro-gateway-*.pid
+logs/opencode-validated.txt

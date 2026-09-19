@@ -32,6 +32,8 @@ for p in $PROV; do
   [ "$p" != "kiro" ] && EXTRA_ENV="$EXTRA_ENV MODEL_VALIDATION=off"
   # Kilo: alias 'free' -> modelo free do Kilo Gateway (kilo/kilo-auto/free), sem créditos (issue #5).
   [ "$p" = "kilo" ] && EXTRA_ENV="$EXTRA_ENV MODEL_ALIASES=free=kilo/kilo-auto/free"
+  # OpenCode: alias 'free' -> modelo free do catálogo do usuário (issue #7).
+  [ "$p" = "opencode" ] && EXTRA_ENV="$EXTRA_ENV MODEL_ALIASES=free=opencode/nemotron-3-ultra-free"
   (
     cd kiro-gateway
     env $EXTRA_ENV nohup uv run main.py > "$ROOT/logs/gateway-$p.log" 2>&1 &

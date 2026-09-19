@@ -125,3 +125,10 @@ Cenários de teste por issue: docs/issues/issue-{1..4}-teste.md
 
 - kilo/free implementado: alias MODEL_ALIASES=free=kilo/kilo-auto/free na instância kilo; chat validado no gateway (:8001) e via LiteLLM. Correção de robustez: stop.sh encerra pelo processo que escuta na porta; pidfile captura o pid correto do uv.
 - Issue #7 criada: OpenCode — validar acessos do usuário (opencode auth/models) e expor todos os modelos da conta (groq, zen, auto free, …) com validação de chat real por id.
+
+## Issue #7 implementada (2026-09-18)
+
+- OpenCode: catálogo completo do usuário via `opencode models` (34 ids: 27 opencode-go/* + 7 free/opencode) + 4 ids ACP.
+- Validação de chat real por id (scripts/validate-opencode.sh, cache logs/opencode-validated.txt): 32/34 CLI OK (muse-spark-1.2/1.3-contributor vazios → excluídos), ACP 4/4 OK → 36 rotas + opencode/free (alias nemotron-3-ultra-free).
+- Normalização LiteLLM: model_name com barras internas viram pontos (ex.: opencode/opencode-go.glm-5.3-flash); id real preservado no backend.
+- Total exposto: 52 modelos (kiro 10, kilo/free 1, claude 4, opencode 37). Validação via LiteLLM: opencode/free ✓, opencode/opencode-go.glm-5.3-flash ✓, opencode/auto ✓.

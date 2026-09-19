@@ -25,10 +25,24 @@ for p in $(enabled_providers); do
   # Allowlist do Kilo: apenas rotas que funcionam — 'free' (kilo/kilo-auto/free, via
   # alias MODEL_ALIASES na instância kilo) até o mapeamento definitivo (issue #5).
   [ "$p" = "kilo" ] && IDS="free"
+
+  # OpenCode (#7): catálogo completo do CLI + ACP, filtrado pelo cache de validação
+  # (só ids que responderam 1 chat real) + alias 'free'.
+  if [ "$p" = "opencode" ]; then
+    bash scripts/validate-opencode.sh >&2 || true
+    [ -s logs/opencode-validated.txt ] || { echo "AVISO: opencode sem ids validados"; continue; }
+    # catálogo completo do CLI (providers autenticados do usuário) + ids ACP do gateway
+    IDS=$(echo "$IDS $(opencode models 2>/dev/null || true)" | tr ' ' '\n' | sort -u \
+          | while read -r id; do grep -qx "$id" logs/opencode-validated.txt && echo "$id"; done || true)
+    IDS="$IDS free"
+  fi
+
   [ -n "$IDS" ] || { echo "AVISO: sem modelos do '$p' (gateway :$PORT off?)"; continue; }
   for id in $IDS; do
+    # LiteLLM só aceita um '/' no model_name (prefixo do provedor); barras internas -> pontos.
+    NAME="$p/$(printf '%s' "$id" | tr '/' '.')"
     cat >> "$TMP" <<EOF
-  - model_name: "$p/$id"
+  - model_name: "$NAME"
     litellm_params:
       model: "openai/$id"
       api_base: "http://host.docker.internal:$PORT/v1"

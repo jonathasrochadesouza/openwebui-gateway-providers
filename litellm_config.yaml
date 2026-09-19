@@ -80,6 +80,11 @@ model_list:
       model: "openai/auto"
       api_base: "http://host.docker.internal:8003/v1"
       api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/claude-auto"
+    litellm_params:
+      model: "openai/claude-auto"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
   - model_name: "opencode/claude-opus-4-8"
     litellm_params:
       model: "openai/claude-opus-4-8"
@@ -90,9 +95,169 @@ model_list:
       model: "openai/claude-sonnet-4-6"
       api_base: "http://host.docker.internal:8003/v1"
       api_key: "os.environ/KIRO_GATEWAY_API_KEY"
-  - model_name: "opencode/claude-auto"
+  - model_name: "opencode/opencode-go.deepseek-v4-flash"
     litellm_params:
-      model: "openai/claude-auto"
+      model: "openai/opencode-go/deepseek-v4-flash"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.deepseek-v4-flash-vision-exp"
+    litellm_params:
+      model: "openai/opencode-go/deepseek-v4-flash-vision-exp"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.deepseek-v4-pro"
+    litellm_params:
+      model: "openai/opencode-go/deepseek-v4-pro"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.deepseek-v4.1-flash"
+    litellm_params:
+      model: "openai/opencode-go/deepseek-v4.1-flash"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.glm-5.1"
+    litellm_params:
+      model: "openai/opencode-go/glm-5.1"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.glm-5.2"
+    litellm_params:
+      model: "openai/opencode-go/glm-5.2"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.glm-5.3"
+    litellm_params:
+      model: "openai/opencode-go/glm-5.3"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.glm-5.3-flash"
+    litellm_params:
+      model: "openai/opencode-go/glm-5.3-flash"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.gpt-5.6-luna"
+    litellm_params:
+      model: "openai/opencode-go/gpt-5.6-luna"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.grok-4.6"
+    litellm_params:
+      model: "openai/opencode-go/grok-4.6"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.hy3"
+    litellm_params:
+      model: "openai/opencode-go/hy3"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.hy4-preview"
+    litellm_params:
+      model: "openai/opencode-go/hy4-preview"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.kimi-k2.6"
+    litellm_params:
+      model: "openai/opencode-go/kimi-k2.6"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.kimi-k2.7-code"
+    litellm_params:
+      model: "openai/opencode-go/kimi-k2.7-code"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.kimi-k3"
+    litellm_params:
+      model: "openai/opencode-go/kimi-k3"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.longcat-2.0"
+    litellm_params:
+      model: "openai/opencode-go/longcat-2.0"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.mimo-v2.5"
+    litellm_params:
+      model: "openai/opencode-go/mimo-v2.5"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.mimo-v2.5-pro"
+    litellm_params:
+      model: "openai/opencode-go/mimo-v2.5-pro"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.minimax-m2.7"
+    litellm_params:
+      model: "openai/opencode-go/minimax-m2.7"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.minimax-m3"
+    litellm_params:
+      model: "openai/opencode-go/minimax-m3"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.qwen3.6-plus"
+    litellm_params:
+      model: "openai/opencode-go/qwen3.6-plus"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.qwen3.7-max"
+    litellm_params:
+      model: "openai/opencode-go/qwen3.7-max"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.qwen3.7-plus"
+    litellm_params:
+      model: "openai/opencode-go/qwen3.7-plus"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.qwen3.8-flash"
+    litellm_params:
+      model: "openai/opencode-go/qwen3.8-flash"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode-go.qwen3.8-max"
+    litellm_params:
+      model: "openai/opencode-go/qwen3.8-max"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode.big-pickle"
+    litellm_params:
+      model: "openai/opencode/big-pickle"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode.ling-3.0-flash-fin-free"
+    litellm_params:
+      model: "openai/opencode/ling-3.0-flash-fin-free"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode.mimo-v2.5-free"
+    litellm_params:
+      model: "openai/opencode/mimo-v2.5-free"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode.muse-spark-1.2-contributor-free"
+    litellm_params:
+      model: "openai/opencode/muse-spark-1.2-contributor-free"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode.muse-spark-1.3-contributor-free"
+    litellm_params:
+      model: "openai/opencode/muse-spark-1.3-contributor-free"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode.nemotron-3-ultra-free"
+    litellm_params:
+      model: "openai/opencode/nemotron-3-ultra-free"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/opencode.nemotron-3.5-lightning-free"
+    litellm_params:
+      model: "openai/opencode/nemotron-3.5-lightning-free"
+      api_base: "http://host.docker.internal:8003/v1"
+      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
+  - model_name: "opencode/free"
+    litellm_params:
+      model: "openai/free"
       api_base: "http://host.docker.internal:8003/v1"
       api_key: "os.environ/KIRO_GATEWAY_API_KEY"
 general_settings:

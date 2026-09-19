@@ -12,6 +12,11 @@ Browser → Open WebUI :3000 → LiteLLM :4000 ─┬→ gateway :8000 → kiro-
 ```
 
 Os modelos aparecem com prefixo do provedor: `kiro/…`, `kilo/…`, `claude/…`, `opencode/…`.
+Para o OpenCode, o catálogo completo dos providers autenticados do usuário (`opencode models`,
+ex.: `opencode-go/…`, `…-free`) é validado com 1 chat real por id (`scripts/validate-opencode.sh`,
+cache em `logs/opencode-validated.txt`; revalidar: `REVALIDATE=1 ./scripts/validate-opencode.sh`)
+e `opencode/free` é o atalho para um modelo free sempre vivo. Barras internas dos ids viram
+pontos no nome exibido (ex.: `opencode/opencode-go.glm-5.3-flash`).
 
 ## Pré-requisitos
 
