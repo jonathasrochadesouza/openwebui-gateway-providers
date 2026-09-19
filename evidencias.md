@@ -120,3 +120,8 @@ Cenários de teste por issue: docs/issues/issue-{1..4}-teste.md
 
 - #5 Kilo: allowlist temporária no sync (só kilo/auto); diagnóstico: upstream responde "Add credits to continue" (conta sem créditos) — mapeamento correto aplicado, rota valida quando a conta tiver créditos.
 - #6 OpenCode: 4ª instância gateway :8003 com wrapper scripts/adapters/opencode-acp.sh (binário oficial opencode 1.18.31, ACP nativo). Validação: /health ✓; 4 modelos (auto, claude-opus-4-8, claude-sonnet-4-6, claude-auto) — TODOS testados com chat real ✓; LiteLLM opencode/auto chat ✓ e stream (18 chunks) ✓; webui→litellm ✓. Total exposto: 19 modelos.
+
+## kilo/free + issue #7 (2026-09-18)
+
+- kilo/free implementado: alias MODEL_ALIASES=free=kilo/kilo-auto/free na instância kilo; chat validado no gateway (:8001) e via LiteLLM. Correção de robustez: stop.sh encerra pelo processo que escuta na porta; pidfile captura o pid correto do uv.
+- Issue #7 criada: OpenCode — validar acessos do usuário (opencode auth/models) e expor todos os modelos da conta (groq, zen, auto free, …) com validação de chat real por id.
