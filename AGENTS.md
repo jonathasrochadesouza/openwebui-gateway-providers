@@ -41,8 +41,10 @@ bash -n scripts/*.sh         # valida sintaxe de TODOS os scripts antes de commi
 - **Sem operações destrutivas fora do escopo**: nada de `docker system prune`,
   `rm -rf` fora da pasta, remoção de containers/volumes de outros projetos.
   `docker compose down -v` apaga dados do usuário — só com pedido explícito.
-- Não altere o banco interno do Open WebUI (volume/SQLite) nem automatize a criação
-  do admin. Configuração vai por env do container (`compose.yaml`).
+- Não altere o banco interno do Open WebUI (volume/SQLite). Configuração vai por env
+  do container (`compose.yaml`). Modo decidido pelo usuário: **single-user sem login**
+  (`WEBUI_AUTH=False`, irreversível — não reverter para multi-usuário sem aprovação,
+  pois exige volume novo).
 - Commits/push só quando o usuário pedir explicitamente.
 
 ## Estrutura (onde mexer)

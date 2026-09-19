@@ -50,13 +50,16 @@ Ou passo a passo:
 ./scripts/start.sh        # detecta provedores, sobe 1 gateway por CLI + Compose
 ```
 
-Abra **http://localhost:3000** e crie o primeiro usuário administrador.
+Abra **http://localhost:3000** — modo single-user (`WEBUI_AUTH=False`): **abre direto, sem login**
+(existe um onboarding inicial de 1 clique para definir o nome; irreversível — não há multi-usuário
+neste modo). Backup do estado anterior do volume: `open-webui-data-backup-*.tgz` na pasta do projeto.
 
 ### Conexão com o LiteLLM
 
-**Automática** — o container Open WebUI já sobe com `OPENAI_API_BASE_URL=http://litellm:4000/v1`
-e `ENABLE_PERSISTENT_CONFIG=False`: ao criar o admin, os modelos `kiro/*`, `kilo/*`, `claude/*`
-já aparecem no seletor. Para re-sincronizar modelos após mudanças: `./scripts/sync-providers.sh`.
+**Automática** — o container Open WebUI sobe com `WEBUI_AUTH=False` (single-user, sem login),
+`OPENAI_API_BASE_URL=http://litellm:4000/v1` e `ENABLE_PERSISTENT_CONFIG=False`: os modelos
+`kiro/…`, `kilo/…`, `claude/…`, `opencode/…`, `antigravity/…`, `codex/…` já aparecem no seletor.
+Para re-sincronizar modelos após mudanças: `./scripts/sync-providers.sh`.
 
 Cadastro manual (alternativo): Settings → Admin Settings → Connections → OpenAI API → Add Connection
 com Base URL `http://litellm:4000/v1`, API Key = `LITELLM_MASTER_KEY` do `.env`, Prefix ID `lab`.

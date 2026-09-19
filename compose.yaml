@@ -13,6 +13,7 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       WEBUI_SECRET_KEY: "${WEBUI_SECRET_KEY}"
+      WEBUI_AUTH: "False"
       OPENAI_API_BASE_URL: "http://litellm:4000/v1"
       OPENAI_API_KEY: "${LITELLM_MASTER_KEY}"
       ENABLE_PERSISTENT_CONFIG: "False"

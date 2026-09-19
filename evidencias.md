@@ -146,3 +146,10 @@ Cenários de teste por issue: docs/issues/issue-{1..4}-teste.md
 - Validação: `agy models` 14/14 ids com chat real OK (gemini-3.8/3.7/3.6-flash h/m/l, gemini-3.1-pro h/l, claude-sonnet-4-6, claude-opus-4-6-thinking, gpt-oss-120b-medium). Alias antigravity/free → gemini-3.8-flash-low. set_model funciona via config options do adaptador.
 - LiteLLM: antigravity/free ✓, antigravity/gemini-3.1-pro-high ✓, antigravity/claude-opus-4-6-thinking ✓. Total exposto: 68 modelos.
 - Validador permanente: scripts/validate-antigravity.sh (cache logs/antigravity-validated.txt, REVALIDATE=1).
+
+## Single-user sem login (2026-09-19, pedido do usuário)
+
+- Backup prévio do volume: open-webui-data-backup-20260919.tgz (624 MB, pasta do projeto).
+- compose.yaml: WEBUI_AUTH=False no open-webui. Volume openwebui-kiro_open-webui-data recriado vazio (com aprovação explícita — irreversível).
+- Validação: /api/config → auth_required=False; webui HTTP 200 healthy; conexão LiteLLM automática mantida (env + ENABLE_PERSISTENT_CONFIG=False).
+- Docs atualizadas: README (sem login, onboarding 1 clique), AGENTS.md (modo single-user decidido).
