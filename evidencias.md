@@ -115,3 +115,8 @@ Comparação: 1) ankitcharolia/kiro-gateway (AGPL-3.0, Python/uv, ACP, auth Bear
 | #4 Detecção/seleção | scripts/providers.sh (bash 3.2 portável), PROVIDERS no .env (vazio=auto), pidfiles por provedor, start/stop/status/test parametrizados, litellm_config.yaml gerado dinamicamente | 3 gateways no ar via PROVIDERS vazio; status.sh por provedor; retrocompat preservada |
 
 Cenários de teste por issue: docs/issues/issue-{1..4}-teste.md
+
+## Issues #5 e #6 (2026-09-18)
+
+- #5 Kilo: allowlist temporária no sync (só kilo/auto); diagnóstico: upstream responde "Add credits to continue" (conta sem créditos) — mapeamento correto aplicado, rota valida quando a conta tiver créditos.
+- #6 OpenCode: 4ª instância gateway :8003 com wrapper scripts/adapters/opencode-acp.sh (binário oficial opencode 1.18.31, ACP nativo). Validação: /health ✓; 4 modelos (auto, claude-opus-4-8, claude-sonnet-4-6, claude-auto) — TODOS testados com chat real ✓; LiteLLM opencode/auto chat ✓ e stream (18 chunks) ✓; webui→litellm ✓. Total exposto: 19 modelos.

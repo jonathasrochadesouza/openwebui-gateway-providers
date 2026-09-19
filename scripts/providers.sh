@@ -3,7 +3,7 @@
 # Portável para bash 3.2 (macOS). Fonte única de verdade p/ setup/start/stop/status/test/sync.
 
 PROVIDERS_ENV_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.env"
-PROVIDERS_KNOWN="kiro kilo claude"
+PROVIDERS_KNOWN="kiro kilo claude opencode"
 
 provider_root() { cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd; }
 
@@ -12,6 +12,7 @@ provider_port() {
     kiro) echo 8000 ;;
     kilo) echo 8001 ;;
     claude) echo 8002 ;;
+    opencode) echo 8003 ;;
   esac
 }
 
@@ -20,6 +21,7 @@ provider_bin() {
     kiro) echo kiro-cli ;;
     kilo) echo kilo ;;
     claude) echo claude ;;
+    opencode) echo opencode ;;
   esac
 }
 
@@ -51,6 +53,7 @@ provider_cli_path() {
     kiro) echo kiro-cli ;;
     kilo) echo "$root/scripts/adapters/kilo-acp.sh" ;;
     claude) echo "$root/scripts/adapters/claude-acp.sh" ;;
+    opencode) echo "$root/scripts/adapters/opencode-acp.sh" ;;
   esac
 }
 
@@ -60,5 +63,6 @@ provider_missing_error() {
     kiro) echo "kiro-cli não encontrado — instale via https://kiro.dev e rode 'kiro-cli login'." ;;
     kilo) echo "kilo não encontrado — instale (kilo.ai) e autentique com 'kilo auth'." ;;
     claude) echo "claude (Claude Code) não encontrado — instale e autentique com 'claude'." ;;
+    opencode) echo "opencode não encontrado — instale (npm i -g opencode-ai) e configure com 'opencode auth'." ;;
   esac
 }

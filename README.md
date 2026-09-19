@@ -1,23 +1,25 @@
-# Open WebUI + Kiro/Kilo/Claude (lab local)
+# Open WebUI + Kiro/Kilo/Claude/OpenCode (lab local)
 
 Chat local (http://localhost:3000) usando a assinatura das suas ferramentas de IA
-via CLIs oficiais (`kiro-cli`, `kilo`, `claude`), cada uma atrás de um gateway
-comunitário ACP, unificadas pelo LiteLLM — sem leitura de credenciais.
+via CLIs oficiais (`kiro-cli`, `kilo`, `claude`, `opencode`), cada uma atrás de um
+gateway comunitário ACP, unificadas pelo LiteLLM — sem leitura de credenciais.
 
 ```
 Browser → Open WebUI :3000 → LiteLLM :4000 ─┬→ gateway :8000 → kiro-cli acp
                                             ├→ gateway :8001 → kilo acp
-                                            └→ gateway :8002 → claude-agent-acp → Claude
+                                            ├→ gateway :8002 → claude-agent-acp → Claude
+                                            └→ gateway :8003 → opencode acp
 ```
 
-Os modelos aparecem com prefixo do provedor: `kiro/…`, `kilo/…`, `claude/…`.
+Os modelos aparecem com prefixo do provedor: `kiro/…`, `kilo/…`, `claude/…`, `opencode/…`.
 
 ## Pré-requisitos
 
 - Docker Desktop **em execução** (28+)
 - Python 3.14+, `uv`, `git`, `curl`, `openssl`, Node 20+ (para adaptadores via npx)
-- Pelo menos um CLI, autenticado: `kiro-cli login`, `kilo auth` e/ou `claude` (`/login`)
-- Opcional: `PROVIDERS=kiro,kilo,claude` no `.env` (vazio = auto-detecta os instalados)
+- Pelo menos um CLI, autenticado: `kiro-cli login`, `kilo auth`, `claude` (`/login`)
+  e/ou `opencode auth`
+- Opcional: `PROVIDERS=kiro,kilo,claude,opencode` no `.env` (vazio = auto-detecta os instalados)
 
 ## Início rápido
 
