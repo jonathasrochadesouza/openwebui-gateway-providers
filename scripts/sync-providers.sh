@@ -22,6 +22,9 @@ for p in $(enabled_providers); do
   IDS=$(curl -sf -m 15 "http://127.0.0.1:$PORT/v1/models" \
         -H "Authorization: Bearer $KIRO_GATEWAY_API_KEY" \
      | python3 -c "import sys,json; [print(m['id']) for m in json.load(sys.stdin)['data']]" 2>/dev/null || true)
+  # Allowlist temporária do Kilo: apenas 'auto' funciona hoje no kilo acp
+  # (issue #5 — remover o filtro quando o mapeamento definitivo estiver pronto).
+  [ "$p" = "kilo" ] && IDS=$(echo "$IDS" | grep -x auto || true)
   [ -n "$IDS" ] || { echo "AVISO: sem modelos do '$p' (gateway :$PORT off?)"; continue; }
   for id in $IDS; do
     cat >> "$TMP" <<EOF

@@ -55,21 +55,6 @@ model_list:
       model: "openai/auto"
       api_base: "http://host.docker.internal:8001/v1"
       api_key: "os.environ/KIRO_GATEWAY_API_KEY"
-  - model_name: "kilo/claude-opus-4-8"
-    litellm_params:
-      model: "openai/claude-opus-4-8"
-      api_base: "http://host.docker.internal:8001/v1"
-      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
-  - model_name: "kilo/claude-sonnet-4-6"
-    litellm_params:
-      model: "openai/claude-sonnet-4-6"
-      api_base: "http://host.docker.internal:8001/v1"
-      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
-  - model_name: "kilo/claude-auto"
-    litellm_params:
-      model: "openai/claude-auto"
-      api_base: "http://host.docker.internal:8001/v1"
-      api_key: "os.environ/KIRO_GATEWAY_API_KEY"
   - model_name: "claude/default"
     litellm_params:
       model: "openai/default"
