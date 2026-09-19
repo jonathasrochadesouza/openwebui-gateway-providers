@@ -50,9 +50,9 @@ model_list:
       model: "openai/claude-auto"
       api_base: "http://host.docker.internal:8000/v1"
       api_key: "os.environ/KIRO_GATEWAY_API_KEY"
-  - model_name: "kilo/auto"
+  - model_name: "kilo/free"
     litellm_params:
-      model: "openai/auto"
+      model: "openai/free"
       api_base: "http://host.docker.internal:8001/v1"
       api_key: "os.environ/KIRO_GATEWAY_API_KEY"
   - model_name: "claude/default"

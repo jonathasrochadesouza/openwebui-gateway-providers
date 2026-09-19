@@ -7,13 +7,14 @@ source scripts/providers.sh
 docker compose stop
 
 stopped=""
-for f in kiro-gateway-*.pid; do
-  [ -f "$f" ] || continue
-  PID=$(cat "$f")
-  if kill -0 "$PID" 2>/dev/null; then
-    kill "$PID" && stopped="$stopped $f (pid $PID)"
+for p in kiro kilo claude opencode; do
+  # Encerra pelo processo que ESCUTA na porta (o pidfile pode apontar ao wrapper morto).
+  PORT=$(provider_port "$p")
+  PIDS=$(lsof -ti :$PORT 2>/dev/null || true)
+  if [ -n "$PIDS" ]; then
+    echo "$PIDS" | xargs kill 2>/dev/null && stopped="$stopped $p(:$PORT)"
   fi
-  rm -f "$f"
+  rm -f "kiro-gateway-$p.pid"
 done
 # Compat: pidfile antigo
 if [ -f kiro-gateway.pid ]; then

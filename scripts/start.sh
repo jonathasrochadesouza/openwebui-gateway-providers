@@ -30,8 +30,13 @@ for p in $PROV; do
   # Env de processo tem precedência sobre o .env do gateway (load_dotenv não sobrescreve).
   EXTRA_ENV="SERVER_PORT=$PORT KIRO_CLI_PATH=$CLI KIRO_ACP_ENGINE="
   [ "$p" != "kiro" ] && EXTRA_ENV="$EXTRA_ENV MODEL_VALIDATION=off"
-  (cd kiro-gateway && env $EXTRA_ENV nohup uv run main.py > "$ROOT/logs/gateway-$p.log" 2>&1 \
-     & echo $! > "$ROOT/$PIDFILE")
+  # Kilo: alias 'free' -> modelo free do Kilo Gateway (kilo/kilo-auto/free), sem créditos (issue #5).
+  [ "$p" = "kilo" ] && EXTRA_ENV="$EXTRA_ENV MODEL_ALIASES=free=kilo/kilo-auto/free"
+  (
+    cd kiro-gateway
+    env $EXTRA_ENV nohup uv run main.py > "$ROOT/logs/gateway-$p.log" 2>&1 &
+    echo $! > "$ROOT/$PIDFILE"
+  )
   echo "$p: gateway iniciando em 127.0.0.1:$PORT (pid $(cat "$PIDFILE"))"
 done
 
